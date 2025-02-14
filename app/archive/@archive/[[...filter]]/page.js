@@ -1,6 +1,6 @@
 import NewsGrid from '@/components/news/news-grid';
 import Link from 'next/link';
-import { getNewsForYear, getAvailableNewsYears } from '@/lib/news';
+import { getNewsForYear, getAvailableNewsYears, getAvailableNewsMonths, getNewsForYearAndMonth } from '@/lib/news';
 
 export default function FilteredNewsPage({ params }) {
 
@@ -17,10 +17,16 @@ export default function FilteredNewsPage({ params }) {
     const selectedMonth = filter?.[1]
 
     let news
-    const links = getAvailableNewsYears()
+    let links = getAvailableNewsYears()
 
     if (selectedYear && !selectedMonth) {
         news = getNewsForYear(selectedYear)
+        links = getAvailableNewsMonths(selectedYear)
+    }
+
+    if (selectedYear && selectedMonth) {
+        news = getNewsForYearAndMonth(selectedYear, selectedMonth)
+        links = []
     }
 
     let newsContent = <p>No news found for the selected period.</p>
@@ -33,12 +39,20 @@ export default function FilteredNewsPage({ params }) {
         <header id="archive-header">
             <nav>
                 <ul>
-                    {links.map((link) => <li key={{ link }}>
-                        <Link href={`/archive/${link}`}>{link}</Link>
-                    </li>)}
+                    {
+                        links.map((link) => {
+                            const href = selectedYear ? `/archive/${selectedYear}/${link}` : `/archive/${link}`
+                            return (
+                                <li key={{ link }}>
+                                    <Link href={href}>{link}</Link>
+                                </li>
+                            )
+                        }
+                        )
+                    }
                 </ul>
             </nav>
-        </header>
+        </header >
         {newsContent}
     </>
     )

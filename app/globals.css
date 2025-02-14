@@ -20,6 +20,11 @@ ul {
   padding: 0;
 }
 
+a {
+  text-decoration: none;
+  color: #e5e5e1;
+}
+
 #page {
   width: 90%;
   max-width: 60rem;

@@ -1,7 +1,7 @@
 export default function ArchiveLayout({ archive, latest }) {
     return (
         <div>
-            <h1>News Archive</h1>
+            <h1><a href="/archive">News Archive</a></h1>
             <section id="archive-filter">
                 {archive}
             </section>
